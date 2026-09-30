@@ -1,15 +1,20 @@
 # lucabrockman.nl
 
-Statische persoonlijke startpagina voor `lucabrockman.nl`.
+Persoonlijke startpagina van Luca Brockman, gebouwd met Next.js en React en gehost op Vercel.
 
-- `index.html`: hoofdpagina met een handmatige link naar het bestaande portfolio.
-- `404.html`: eigen pagina voor niet-bestaande URLs; Cloudflare Pages herkent dit bestand automatisch.
-- `403.html`: eigen pagina voor geweigerde toegang op afgeschermde Nginx Proxy Manager-hosts. Het bestand alleen publiceren is niet voldoende: Nginx moet het als foutpagina serveren met HTTP-status 403.
+## Ontwikkelen
 
-Alle pagina's zijn zelfstandige HTML-bestanden zonder externe lettertypen, scripts of afbeeldingen.
+```bash
+npm install
+npm run dev
+```
 
-## Publicatie
+De homepage staat in `app/page.jsx`. Onbekende paden gebruiken `app/not-found.jsx` met HTTP 404. De route `/403` rendert de foutpagina met React en retourneert HTTP 403.
 
-De site kan als statische map op Cloudflare Pages of Vercel worden gepubliceerd. Koppel `lucabrockman.nl` aan het project en wijzig alleen het DNS-record van het hoofddomein. `ps.lucabrockman.nl` blijft naar het bestaande portfolio verwijzen.
+## Domein en proxy
 
-Voor het kale IP-adres: stel in Nginx Proxy Manager onder **Settings → Default Site** een eigen pagina of een redirect naar `https://lucabrockman.nl/` in. Een URL met `https://<ip>` vereist een certificaat voor het IP-adres zelf en is niet hetzelfde als de standaard HTTP-pagina.
+Koppel `lucabrockman.nl` aan het Vercel-project en wijzig daarna alleen het DNS-record van het hoofddomein. Laat `ps.lucabrockman.nl` ongemoeid.
+
+Het kale IP-adres wordt door Nginx Proxy Manager afgehandeld. Verander onder **Settings → Default Site** de huidige doorsturing naar `ps.lucabrockman.nl` in een eigen pagina of een doorsturing naar `https://lucabrockman.nl/`.
+
+De Vercel-route `/403` verandert de foutpagina van afgeschermde Nginx Proxy Manager-hosts niet automatisch. Daarvoor is een Nginx `error_page 403`-configuratie nodig die het antwoord met status 403 voor die hosts serveert.
