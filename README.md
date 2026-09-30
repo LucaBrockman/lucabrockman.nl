@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-De homepage staat in `app/page.jsx`. Onbekende paden gebruiken `app/not-found.jsx` met HTTP 404. De route `/403` rendert de foutpagina met React en retourneert HTTP 403.
+De homepage staat in `app/page.jsx`. Onbekende paden en de expliciete route `/404` gebruiken `app/not-found.jsx` met HTTP 404. De route `/403` rendert de foutpagina met React en retourneert HTTP 403.
 
 ## Productie
 
@@ -23,4 +23,12 @@ Nginx Proxy Manager-hosts met de toegangslijst `HomeNetwork` gebruiken in **Adva
 error_page 403 =302 https://lucabrockman.nl/403;
 ```
 
-Een geweigerde aanvraag op zo'n host krijgt daarmee eerst HTTP 302; de browser opent vervolgens de Vercel-pagina `/403`, die HTTP 403 teruggeeft. De toegangsregels blijven bij Nginx Proxy Manager staan. De `404 Hosts`-functie van Nginx Proxy Manager is niet betrokken bij de Next.js-404-pagina op het hoofddomein.
+Een geweigerde aanvraag op zo'n host krijgt daarmee eerst HTTP 302; de browser opent vervolgens de Vercel-pagina `/403`, die HTTP 403 teruggeeft. De toegangsregels blijven bij Nginx Proxy Manager staan.
+
+Voor onbekende subdomeinen is een NPM **404 Host** op `*.lucabrockman.nl` bedoeld, met in **Advanced**:
+
+```nginx
+error_page 404 =302 https://lucabrockman.nl/404;
+```
+
+Nginx kiest bestaande exacte proxyhosts vóór deze wildcard. Een aanvraag op het kale IP-adres blijft via **Default Site** naar de homepage verwijzen.
