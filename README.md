@@ -1,6 +1,6 @@
 # lucabrockman.nl
 
-Persoonlijke startpagina van Luca Brockman, gebouwd met Next.js en React en gehost op Vercel.
+Persoonlijke startpagina van Luca Brockman, gebouwd met Next.js en React en gehost op Vercel. De vormgeving gebruikt het kleurpalet en de typografische stijl van BLB Solutions.
 
 ## Ontwikkelen
 
@@ -17,7 +17,7 @@ De GitHub-repository is gekoppeld aan het Vercel-project `lucabrockman-nl`. Het 
 
 Het kale IP-adres wordt door Nginx Proxy Manager afgehandeld. **Settings → Default Site** verwijst nu naar `https://lucabrockman.nl/`.
 
-Nginx Proxy Manager-hosts met de toegangslijst `HomeNetwork` gebruiken in **Advanced → Custom Nginx Configuration**:
+Alle acht Nginx Proxy Manager-hosts met de toegangslijst `HomeNetwork` gebruiken in **Advanced → Custom Nginx Configuration**:
 
 ```nginx
 error_page 403 =302 https://lucabrockman.nl/403;
@@ -25,7 +25,7 @@ error_page 403 =302 https://lucabrockman.nl/403;
 
 Een geweigerde aanvraag op zo'n host krijgt daarmee eerst HTTP 302; de browser opent vervolgens de Vercel-pagina `/403`, die HTTP 403 teruggeeft. De toegangsregels blijven bij Nginx Proxy Manager staan.
 
-Voor onbekende subdomeinen is een NPM **404 Host** op `*.lucabrockman.nl` bedoeld, met in **Advanced**:
+Voor onbekende subdomeinen is een NPM **404 Host** op `*.lucabrockman.nl` ingesteld, met het bestaande wildcardcertificaat en in **Advanced**:
 
 ```nginx
 error_page 404 =302 https://lucabrockman.nl/404;
